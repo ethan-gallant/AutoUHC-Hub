@@ -1,0 +1,34 @@
+######################################################
+#      - AutoUHCHub [v1.0] Configuration File -      #
+#         	    Created by xMakerx                   #
+######################################################
+config-version: '1.0.0'
+server-name: 'UHC-Lobby-1'
+want-prefix-messages: false
+
+items:
+  serverSelector: COMPASS
+  joinableServer: WOOL:5
+  inProgressServer: WOOL:4
+  restartingServer: WOOL:14
+  selectorBackground: STAINED_GLASS_PANE:10
+  autoJoin: WATCH
+
+database:
+  username: 'root'
+  password: ''
+  database: 'uhc'
+  host: 'localhost'
+  port: '3306'
+
+jedis:
+  host: 'localhost'
+  port: 6379
+  password: ''
+
+messages:
+  serverSelectorItem: "&b&lServer Selector"
+  serverSelectorMenuTitle: "&8&lSelect UHC Server"
+  autoJoin: "&aAuto Join"
+  noServersAvailable: "&cThere aren't any available servers :("
+  attemptingJoin: "&aAttempting to send you to UHC Server: %s..."

@@ -1,0 +1,5 @@
+name: AutoUHCHub
+author: xMakerx
+version: 1.0
+
+main: mc.autouhc.hub.AutoUHCHub
