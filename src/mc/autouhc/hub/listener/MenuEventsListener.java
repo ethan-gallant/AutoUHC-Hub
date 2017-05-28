@@ -14,49 +14,54 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import mc.autouhc.hub.AutoUHCHub;
+import mc.autouhc.hub.creator.MatchCreator;
+import mc.autouhc.hub.menu.MatchCreatorSelectModeMenu;
 import mc.autouhc.hub.menu.Menu;
 import mc.autouhc.hub.menu.ServerSelectorMenu;
 
 public class MenuEventsListener implements Listener {
-    
+
     final AutoUHCHub main;
     private final HashMap<UUID, Menu> activeMenus;
-    
+
     public MenuEventsListener(AutoUHCHub instance) {
         this.main = instance;
         this.activeMenus = new HashMap<UUID, Menu>();
     }
-    
+
     public void setMenu(UUID uuid, Menu menu) {
         activeMenus.put(uuid, menu);
     }
-    
+
     public boolean removeMenu(UUID uuid) {
         boolean removed = activeMenus.containsKey(uuid);
         activeMenus.remove(uuid);
         return removed;
     }
-    
+
     public Menu getMenu(UUID uuid) {
         return activeMenus.get(uuid);
     }
-    
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent evt) {
         Player p = evt.getPlayer();
         Action action = evt.getAction();
-        
+
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             ItemStack item = p.getItemInHand();
             ItemStack check = new ItemStack(item.getType(), 1);
             if(check.isSimilar(main.getSettings().getServerSelectorItem())) {
-                ServerSelectorMenu srvSel = new ServerSelectorMenu(main, p);
-                srvSel.show();
-                main.getMenuEventsListener().setMenu(p.getUniqueId(), srvSel);
+                //ServerSelectorMenu srvSel = new ServerSelectorMenu(main, p);
+                //srvSel.show();
+                //main.getMenuEventsListener().setMenu(p.getUniqueId(), srvSel);
+                MatchCreatorSelectModeMenu selModeMenu = new MatchCreatorSelectModeMenu(main, p, new MatchCreator(p.getUniqueId()));
+                selModeMenu.show();
+                main.getMenuEventsListener().setMenu(p.getUniqueId(), selModeMenu);
             }
         }
     }
-    
+
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent evt) {
         Player p = (Player) evt.getPlayer();
@@ -66,17 +71,16 @@ public class MenuEventsListener implements Listener {
             activeMenus.remove(p.getUniqueId());
         }
     }
-    
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent evt) {
         Player p = (Player) evt.getWhoClicked();
         Menu menu = getMenu(p.getUniqueId());
-        Inventory inv = evt.getClickedInventory();
-        
-        if(menu != null && inv.equals(menu.getUI()) && !evt.isCancelled()) {
+
+        if(menu != null && !evt.isCancelled()) {
             menu.clickPerformed(evt);
             evt.setCancelled(true);
         }
     }
-    
+
 }

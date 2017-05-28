@@ -42,11 +42,11 @@ public class AutoUHCHub extends JavaPlugin {
     public Settings getSettings() {
         return AutoUHCHub.settings;
     }
-    
+
     public Messages getMessages() {
         return AutoUHCHub.messages;
     }
-    
+
     public MenuEventsListener getMenuEventsListener() {
         return AutoUHCHub.menuListener;
     }

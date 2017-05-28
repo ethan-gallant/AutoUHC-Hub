@@ -21,7 +21,7 @@ public class UHCJedis {
     private String host;
     private String password;
     private int port;
-    
+
     // These strings represent the keys for each Jedis update.
     public static final String SERVER_DATA_MAP = "uhcServers";
     public static final String LOBBY_DATA_MAP = "uhcLobbies";
@@ -49,24 +49,45 @@ public class UHCJedis {
         this.password = password;
         Thread.currentThread().setContextClassLoader(prevClassLdr);
     }
-    
+
     public void handshake() {
         String serverName = main.getSettings().getServerName();
-        
+
         try(Jedis jedis = pool.getResource()) {
             if(!password.isEmpty()) jedis.auth(password);
             boolean exists = jedis.sismember(LOBBY_DATA_MAP, serverName);
-            
+
             if(!exists) {
-                jedis.sadd(LOBBY_DATA_MAP, serverName);
+                announceLobbyDetails(jedis);
                 main.sendConsoleMessage(ChatColor.GREEN + "Successfully shook redis hand!");
             }else {
                 main.sendConsoleMessage(ChatColor.RED + String.format("A UHC server with the name %s already exists according to Redis."
-                   + " Change the server-name value inside of a config to a unique server name and restart the server.",
-                serverName));
+                        + " Change the server-name value inside of a config to a unique server name and restart the server.",
+                        serverName));
                 main.disable();
             }
         }
+    }
+
+    /**
+     * Updates the details on redis about this lobby.
+     * @param A {@link Jedis} connection object
+     */
+
+    public void announceLobbyDetails(Jedis jedis) {
+        String serverName = main.getSettings().getServerName();
+        boolean exists = jedis.sismember(LOBBY_DATA_MAP, serverName);
+
+        // Let's use a pipeline to reduce network overhead.
+        Pipeline p = jedis.pipelined();
+        if(!exists) p.sadd(LOBBY_DATA_MAP, serverName);
+
+        // Let's announce the amount of players online.
+        p.hset(serverName, ONLINE_PLAYERS_KEY, String.valueOf(main.getServer().getOnlinePlayers().size()));
+
+        // Let's announce the maximum amount of players allowed online.
+        p.hset(serverName, MAX_PLAYERS_KEY, String.valueOf(main.getServer().getMaxPlayers()));
+        p.sync();
     }
 
     public ArrayList<UHCServerResponse> getUHCServers() {
@@ -101,7 +122,7 @@ public class UHCJedis {
     }
 
     public void subscribeToUHCChannel() {
-        subConn = new Jedis(host, port);
+        subConn = pool.getResource();
         uhcChannel = new UHCPubSub(main);
 
         unmanagedSubThread = new Thread(new Runnable() {
@@ -123,20 +144,20 @@ public class UHCJedis {
                 e.printStackTrace();
             }
         }
-        
+
         String serverName = main.getSettings().getServerName();
-        
+
         try(Jedis jedis = pool.getResource()) {
             if(!password.isEmpty()) jedis.auth(password);
             Pipeline p = jedis.pipelined();
             Response<Boolean> srvExists = p.sismember(LOBBY_DATA_MAP, serverName);
             p.sync();
-            
+
             boolean exists = srvExists.get();
-            
+
             if(exists) {
+                p.del(serverName);
                 p.srem(LOBBY_DATA_MAP, serverName);
-                main.sendConsoleMessage(ChatColor.GREEN + "Success!");
             }else {
                 main.sendConsoleMessage(ChatColor.RED + String.format("Redis: This server is not a member of the '%s' set.", LOBBY_DATA_MAP));
             }
@@ -154,5 +175,16 @@ public class UHCJedis {
         if(subConn != null) {
             subConn.close();
         }
+
+        main.sendConsoleMessage(ChatColor.GREEN + "Closed connection to redis!");
     }
+
+    public String getHost() {
+        return this.host;
+    }
+
+    public int getPort() {
+        return this.port;
+    }
+
 }

@@ -2,7 +2,7 @@
 #      - AutoUHCHub [v1.0] Configuration File -      #
 #         	    Created by xMakerx                   #
 ######################################################
-config-version: '1.0.0'
+config-version: '1.2.0'
 server-name: 'UHC-Lobby-1'
 want-prefix-messages: false
 
@@ -12,6 +12,18 @@ items:
   inProgressServer: WOOL:4
   restartingServer: WOOL:14
   selectorBackground: STAINED_GLASS_PANE:10
+  creatorBackground: STAINED_GLASS_PANE:15
+  nextPageButton: STAINED_GLASS_PANE:13
+  previousPageButton: STAINED_GLASS_PANE:14
+  middleButton: STAINED_GLASS_PANE:4
+  friendlyFireButton: DIAMOND_SWORD
+  randomTeamsButton: BEDROCK
+  borderSize: MAP
+  soloMode: DEAD_BUSH
+  teamMode: SKULL_ITEM:3
+  whitelist: PAPER
+  slots: BOOK_AND_QUILL
+  matchTime: WATCH
   autoJoin: WATCH
 
 database:
@@ -32,3 +44,42 @@ messages:
   autoJoin: "&aAuto Join"
   noServersAvailable: "&cThere aren't any available servers :("
   attemptingJoin: "&aAttempting to send you to UHC Server: %s..."
+  soloMode: "&c&lSolo"
+  teamMode: "&a&lTeam"
+  next: "&2Next"
+  back: "&4Back"
+  teamOptions: "&a&lTeam Options"
+  friendlyFire: "&b&lFriendly Fire"
+  randomTeams: "&b&lRandom Teams"
+  teamSize: "&b&lTeam Size"
+  increaseSlots: "&a&lIncrease Slots"
+  decreaseSlots: "&c&lDecrease Slots"
+  clickToToggle: "&7Click to toggle"
+  borderSize: "&a&lBorder Size"
+  gameTime: "&a&lGame Time"
+  whitelist: "&a&lWhitelist"
+  slots: "&a&lSlots"
+  confirm: "&2&lConfirm"
+  deny: "&4&lDeny"
+  oneThousand: "&a&l1000x1000"
+  fifteenHundred: "&e&l1500x1500"
+  twoThousand: "&c&l2000x2000"
+  fortyMins: "&a&l40 Min"
+  fiftyMins: "&e&l50 Min"
+  sixtyMins: "&c&l60 Min"
+  matchCreatorMenuTitle: "&8Match Creator - %s"
+  selectMode: "Select Mode"
+  setTeamSize: "Team Size"
+  setTeamOptions: "Team Options"
+  setBorderSize: "Border Size"
+  setMatchDuration: "Game Time"
+  toggleWhitelist: "Whitelist"
+  selectScenarios: "Scenarios"
+  setSlots: "Set Slots"
+  confirmation: "Confirmation"
+  turnOff: "&c&lOff"
+  turnOn: "&2&lOn"
+  previousScenariosPage: "&cPrevious Page of Scenarios"
+  nextScenariosPage: "&aNext Page of Scenarios"
+  matchCreationCanceled: "&cMatch creation canceled."
+  matchCreationComplete: "&a&lCongrats! &r&2Your match has been successfully created!"

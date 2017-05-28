@@ -29,17 +29,17 @@ public class TrafficEventsListener implements Listener {
             public void run() {
                 p.getInventory().clear();
                 p.getInventory().setItem(4, ConfigUtils.nameItem(main.getSettings().getServerSelectorItem(), 
-                   main.getMessages().color(main.getMessages().getRawMessage("serverSelectorItem"))));
+                        main.getMessages().color(main.getMessages().getRawMessage("serverSelectorItem"))));
             }
 
         }.runTaskLater(main, 1L);
     }
-    
+
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent evt) {
         final Player p = evt.getPlayer();
         final Menu menu = main.getMenuEventsListener().getMenu(p.getUniqueId());
-        
+
         if(menu != null) {
             main.getMenuEventsListener().removeMenu(p.getUniqueId());
         }
