@@ -2,12 +2,13 @@
 #      - AutoUHCHub [v1.0] Configuration File -      #
 #         	    Created by xMakerx                   #
 ######################################################
-config-version: '1.2.0'
+config-version: '1.0.0'
 server-name: 'UHC-Lobby-1'
 want-prefix-messages: false
 
 items:
   serverSelector: COMPASS
+  matchCreator: MAP
   joinableServer: WOOL:5
   inProgressServer: WOOL:4
   restartingServer: WOOL:14
@@ -83,3 +84,4 @@ messages:
   nextScenariosPage: "&aNext Page of Scenarios"
   matchCreationCanceled: "&cMatch creation canceled."
   matchCreationComplete: "&a&lCongrats! &r&2Your match has been successfully created!"
+  matchCreator: "&e&lMatch Creator"

@@ -19,6 +19,7 @@ public class Settings {
 
     // Items
     private ItemStack srvSelItem;
+    private ItemStack matchCreatorItem;
     private ItemStack selBgItem;
     private ItemStack joinableSrv;
     private ItemStack inProgressSrv;
@@ -46,6 +47,7 @@ public class Settings {
         this.main = instance;
         this.configFile = new File(main.getDataFolder() + "/config.yml");
         this.srvSelItem = null;
+        this.matchCreatorItem = null;
         this.selBgItem = null;
         this.joinableSrv = null;
         this.inProgressSrv = null;
@@ -104,6 +106,7 @@ public class Settings {
             // Handling items
             ConfigurationSection itemsSect = config.getConfigurationSection("items");
             srvSelItem = ConfigUtils.handleIconString(itemsSect.getString("serverSelector"));
+            matchCreatorItem = ConfigUtils.handleIconString(itemsSect.getString("matchCreator"));
             restartingSrv = ConfigUtils.handleIconString(itemsSect.getString("restartingServer"));
             joinableSrv = ConfigUtils.handleIconString(itemsSect.getString("joinableServer"));
             inProgressSrv = ConfigUtils.handleIconString(itemsSect.getString("inProgressServer"));
@@ -159,6 +162,14 @@ public class Settings {
         }
 
         return srvSelItem;
+    }
+    
+    public ItemStack getMatchCreatorItem() {
+        if(matchCreatorItem != null) {
+            return matchCreatorItem.clone();
+        }
+        
+        return matchCreatorItem;
     }
 
     public ItemStack getServerSelectorBackgroundItem() {

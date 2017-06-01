@@ -3,6 +3,10 @@ package mc.autouhc.hub.listener;
 import java.util.HashMap;
 import java.util.UUID;
 
+import mc.autouhc.hub.AutoUHCHub;
+import mc.autouhc.hub.menu.Menu;
+import mc.autouhc.hub.menu.ServerSelectorMenu;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,14 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import mc.autouhc.hub.AutoUHCHub;
-import mc.autouhc.hub.creator.MatchCreator;
-import mc.autouhc.hub.menu.MatchCreatorSelectModeMenu;
-import mc.autouhc.hub.menu.Menu;
-import mc.autouhc.hub.menu.ServerSelectorMenu;
 
 public class MenuEventsListener implements Listener {
 
@@ -52,12 +49,11 @@ public class MenuEventsListener implements Listener {
             ItemStack item = p.getItemInHand();
             ItemStack check = new ItemStack(item.getType(), 1);
             if(check.isSimilar(main.getSettings().getServerSelectorItem())) {
-                //ServerSelectorMenu srvSel = new ServerSelectorMenu(main, p);
-                //srvSel.show();
-                //main.getMenuEventsListener().setMenu(p.getUniqueId(), srvSel);
-                MatchCreatorSelectModeMenu selModeMenu = new MatchCreatorSelectModeMenu(main, p, new MatchCreator(p.getUniqueId()));
-                selModeMenu.show();
-                main.getMenuEventsListener().setMenu(p.getUniqueId(), selModeMenu);
+                ServerSelectorMenu srvSel = new ServerSelectorMenu(main, p);
+                srvSel.show();
+                main.getMenuEventsListener().setMenu(p.getUniqueId(), srvSel);
+            }else if(check.isSimilar(main.getSettings().getMatchCreatorItem())) {
+                main.beginMatchCreator(p);
             }
         }
     }

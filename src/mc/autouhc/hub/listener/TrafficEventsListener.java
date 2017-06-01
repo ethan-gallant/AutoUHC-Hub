@@ -29,7 +29,9 @@ public class TrafficEventsListener implements Listener {
             public void run() {
                 p.getInventory().clear();
                 p.getInventory().setItem(4, ConfigUtils.nameItem(main.getSettings().getServerSelectorItem(), 
-                        main.getMessages().color(main.getMessages().getRawMessage("serverSelectorItem"))));
+                        main.getMessages().getColoredString("serverSelectorItem")));
+                p.getInventory().setItem(8, ConfigUtils.nameItem(main.getSettings().getMatchCreatorItem(), 
+                        main.getMessages().getColoredString("matchCreator")));
             }
 
         }.runTaskLater(main, 1L);

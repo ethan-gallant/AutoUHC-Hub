@@ -36,7 +36,9 @@ public abstract class MatchCreatorMenu extends Menu {
         }
     }
 
-    public void closed() {  }
+    public void closed() {
+        main.removeMatchCreator(viewer);
+    }
 
     public void show() {
         ui.clear();
